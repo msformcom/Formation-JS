@@ -1,4 +1,12 @@
-// 17 % 3 => 2
+        
+        
+        
+
+        
+        
+        
+        
+        // 17 % 3 => 2
         // Changer la couleur de l'item1
         // Aller chercher la référence vers item1
         let e=document.getElementById("item1");
@@ -39,8 +47,13 @@
         //     i++;
         // };
 
-        for(let i=0;i<lis.length;i++){
-            let e=lis[i]; // e vaut le ieme element du tableau
+
+        // jsdoc => Permettre de documenter notre code à l'aide de commentaires spéciaux
+        /**
+         * Ajoute un comportement au click qui fait line trough
+         * @param {HtmlElement} e L'élément sur lequel ajouter le click
+         */
+        function addLineTroughOnClick(e){
             e.addEventListener("click",function(){
                 if(e.style.textDecoration=="line-through"){
                     e.style.textDecoration=""
@@ -51,6 +64,31 @@
 
             });
         }
+
+    
+        // Mise en place de line-through pour les éléments initialement dans le document
+        for(let i=0;i<lis.length;i++){
+            let li=lis[i]; // e vaut le ieme element du tableau
+            addLineTroughOnClick(li);
+        }
+
+
+        document.getElementById("button_ajouter").addEventListener("click",function(){
+            // Cette fonction sera éxecutée lorsqu'on clicke sur le bouton
+            let input=document.getElementById("input_texte");
+            let texte=input.value; // Pour un élément de type Input => value = le texte entré par l'utilisateur
+
+            let nouveauLi=document.createElement("li");  // Création d'un élément li
+            nouveauLi.innerHTML=texte; // Changement de son contenu
+
+            let ul=document.getElementById("ul_liste");  // Recherche de la liste
+            ul.appendChild(nouveauLi);  // Ajout de l'élément à la liste
+
+            // Chaque nouvel li est associé à line-through
+            addLineTroughOnClick(nouveauLi)
+
+            input.value=""; // Efface le contenu de la zone de texte
+        })
 
 
 
