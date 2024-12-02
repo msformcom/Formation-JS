@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma page</title>
+</head>
+<body>
+    <h1>Ma page</h1>
+
+    <p>Il est <span id="emplacement_date"></span>
+        <!-- Commentaire html-->
+
+    </p>
+
+    <p>Compte rebours à partir de 100 : <span id="emplacement_compte"></span></p>
+
+    <p>Ceci est une partie de la page</p>
+    <script>
+
+        var c=100;
+        var timer=windows.setInterval(function(){
+            document.getElementById("emplacement_compte").innerHTML=c;
+            c--; 
+            if(c<0){
+                clearInterval(timer); // Arret du timer
+            }
+        },50);
+
+
+        // Créer une action répétitive => setInterval => function exécutée 1 fois chaque 1000ms
+        window.setInterval(
+            function(){
+                    // Ce script va apporrter des modifs dans la page
+                    // Je recherche l'élément avec id emplacement_date dans le document
+                    var e= document.getElementById("emplacement_date");
+                    // Changement du HTML à l'interieur du span
+                    e.innerHTML=new Date();
+            }
+        ,1000); 
+
+    </script>
+</body>
+</html>
