@@ -24,7 +24,7 @@
             c++;  // c=c+1;   c+=1; c++;
         },1000);
 
-        var lis=document.getElementsByClassName("liste_item"); // Tableau avec 3 éléments
+
         // 0 - item1
         // 1 - item2
         // 2 - item3
@@ -54,6 +54,8 @@
          * @param {HtmlElement} e L'élément sur lequel ajouter le click
          */
         function addLineTroughOnClick(e){
+            // click, dblclick,mouseover,mouseout, mousemove,rightclick
+            // input => change, keydown, keyup, focus,blur
             e.addEventListener("click",function(){
                 if(e.style.textDecoration=="line-through"){
                     e.style.textDecoration=""
@@ -65,10 +67,11 @@
             });
         }
 
-    
+        var lis=document.getElementsByClassName("liste_item"); // Tableau avec 3 éléments
         // Mise en place de line-through pour les éléments initialement dans le document
         for(let i=0;i<lis.length;i++){
             let li=lis[i]; // e vaut le ieme element du tableau
+          
             addLineTroughOnClick(li);
         }
 
@@ -85,7 +88,7 @@
             ul.appendChild(nouveauLi);  // Ajout de l'élément à la liste
 
             // Chaque nouvel li est associé à line-through
-            addLineTroughOnClick(nouveauLi)
+            addLineTroughOnClick(nouveauLi);
 
             input.value=""; // Efface le contenu de la zone de texte
         })
