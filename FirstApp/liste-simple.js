@@ -75,6 +75,11 @@
             addLineTroughOnClick(li);
         }
 
+        function toto (){
+            // Nombre d'(éléments qui sont dans la liste)
+            let nb=document.getElementsByClassName("liste_item").length
+        }
+
 
         document.getElementById("button_ajouter").addEventListener("click",function(){
             // Cette fonction sera éxecutée lorsqu'on clicke sur le bouton

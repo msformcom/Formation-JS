@@ -57,6 +57,9 @@ multiplication=function(a,b){
 
 // codes plus récents => peut ne pas fonctionner sur anciens navigateur
 let multiplication=(a,b)=>a*b;
+multiplication=function(a,b){
+    return a*b
+}
 multiplication=(a,b)=>{
     // lignes
     return a*b;
