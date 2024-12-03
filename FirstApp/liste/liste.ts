@@ -1,9 +1,12 @@
-class Liste{
+import  {Tache} from "./tache.js";
+
+
+export class Liste{
     nom="Taches à réaliser";
-    id;
+    id=0;
     /** Array of Tache */
-    taches :  Tache[] =[]; // 
-    addTache(libelle){
+    taches : Tache[]  =[]; // 
+    addTache(libelle:string){
         let t=new Tache();
         t.libelle=libelle; // Erreur possible
         this.taches.push(t);
