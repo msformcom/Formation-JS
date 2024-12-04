@@ -5,6 +5,7 @@ let liste = new Liste();
 liste.addTache("Faire la lessive");
 liste.addTache("Faire la vaisselle");
 liste.addTache("Accrocher le linge");
+liste.addTache("Fermer la lumière avant de partir");
 /**
  * Mise à jour de l'UI en fonction des changements dans liste
  */
@@ -17,15 +18,26 @@ function majUI(liste) {
     document.getElementById("nom_liste").innerHTML = liste.nom;
     let ul = document.getElementById("taches_liste");
     ul.innerHTML = "";
-    for (let t of liste.taches) {
-        let li = document.createElement("li");
+    // TODO : taches classees par ordre alphabetique sur le texte
+    let tachesTriees = liste.taches.sort((t1, t2) => t1.libelle > t2.libelle ? 1 : -1);
+    // Mise en place des LIs dans le UL
+    for (let t of tachesTriees) {
+        let li = document.createElement("li"); // Création d'un élément li
         li.innerHTML = t.libelle;
+        // Si la tache est réalisée => Changement d'aspect graphique 
+        if (t.estRealise) {
+            li.classList.add("realisee");
+        }
+        else {
+            // Sinon => permet à l'utilisateur de clicker dessus pour la réaliser
+            li.addEventListener("click", () => {
+                t.realiser(); // Change la tache
+                majUI(liste);
+            });
+        }
+        // TODO : ajouter un click sur le LI => exécuter la méthode réaliser de la tache => majUI
+        // TODO : ajouter la class realisee au li si t.estRealise est vrai
         ul.appendChild(li);
     }
-    // taches classees par ordre alphabetique sur le texte
 }
-majUI(liste);
-liste.addTache("Fermer la lumière avant de partir");
-majUI(liste);
-liste.taches[1].libelle = "Faire bien la vaisselle";
 majUI(liste);
