@@ -21,10 +21,16 @@ let liste={
     ]
 }
 
-// http://localhost:4200/taches
+// http://localhost:4200/liste
 server.get("/liste",(req,res)=>{
     // renvoit de l'objet
     res.send(liste);
+})
+
+server.use(express.json())
+server.put("/liste",(req,res)=>{
+    liste=req.body;
+    res.send();
 })
 
 // servir rous les fichiers dans le dossier liste de FirstApp

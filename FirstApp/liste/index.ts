@@ -5,19 +5,23 @@
 
 import { Liste } from "./liste.js";
 import { Tache } from "./tache.js";
-
+// DTO => Data Transfert Object => Le type d'objet qui sert à trasporter des informations d'une couche à une autre
 interface ObjetServer{
     name:string;
     id:number;
     tasks:{id:number, label:string,entryDate:string,realisationDate:string | null}[]
 }
 
-
 // Aller chercher les données sur le server à l'adresse ./liste
 // fetch => asynchrone => on ne peut pas attendre le résultat 
+// let r=await fetch(....)
+// let o=await r.json();
+
+
 let p =fetch("/liste"); // p est une promesse => action en attente
 p.then(r=>{
     r.json().then((o : ObjetServer)=>{
+        // Callback fin decomposition json
         console.log(o);
         let liste=new Liste();
         liste.nom=o.name;
@@ -25,27 +29,54 @@ p.then(r=>{
         // Je boucle sur tous les objets contenus dans o.tasks
         for(let t of o.tasks){
             let tache=new Tache();
+            tache.id=t.id;
+            tache.libelle=t.label;
+            tache.dateEntree=new Date(t.entryDate);
+            // dateRealisation si elle est présente dans o
+            tache.dateRealisation=t.realisationDate ? new Date(t.realisationDate) : null;
+            liste.taches.push(tache);
 
         }
+
+        // La liste est reçue du server
+        document.getElementById("button_ajout_tache")!.addEventListener("click",()=>{
+            let input =  document.getElementById("input_libelle") as HTMLInputElement;
+            let libelle=input.value;
+            try {
+             liste.addTache(libelle);  
+             majServer(liste).then(r=>{
+                  majUI(liste);
+             }) 
+           
+             input.value="";
+            } catch (error:any) {
+                 // Message d'erreur envoyé par la classe Tache
+                console.log(error.message); 
+                alert("Libellé non vide, qui commence par une majuscule et max 30 caractère");
+            }
+         
+         
+         });
+
+         majUI(liste);
+         // Masquage du feedback d'attente
+         document.getElementById("waiter")!.style.display="none";
+         // Montrer le contenu
+         document.getElementById("content")!.style.display="";
+
+
     }); // permet d'obtenir l'objet correspondant au json envoyé par le server
 
 }); // callback exécutée si tout va bien 
-p.catch(err=>{})
+p.catch(err=>{
 
-console.log("toto");
+})
 
-
-// Fonction synchrone => on peut l'utiliser sans craindre une attente
-function addition(a:number,b:number){
-    return a+b;
-}
-
-
-let liste=new Liste();
-liste.addTache("Faire la lessive");
-liste.addTache("Faire la vaisselle");
-liste.addTache("Accrocher le linge");
-liste.addTache("Fermer la lumière ");
+// let liste=new Liste();
+// liste.addTache("Faire la lessive");
+// liste.addTache("Faire la vaisselle");
+// liste.addTache("Accrocher le linge");
+// liste.addTache("Fermer la lumière ");
 /**
  * Mise à jour de l'UI en fonction des changements dans liste
  */
@@ -55,22 +86,37 @@ liste.addTache("Fermer la lumière ");
 // VM => 
 
 // Agir sur le click du bouton
-document.getElementById("button_ajout_tache")!.addEventListener("click",()=>{
-   let input =  document.getElementById("input_libelle") as HTMLInputElement;
-   let libelle=input.value;
-   try {
-    liste.addTache(libelle);    
-    majUI(liste);
-    input.value="";
-   } catch (error:any) {
-        // Message d'erreur envoyé par la classe Tache
-       console.log(error.message); 
-       alert("Libellé non vide, qui commence par une majuscule et max 30 caractère")
-   }
 
+/**
+ * Mettre à jour les données de la liste sur le  server
+ * @param liste 
+ */
+async function majServer(liste:Liste){
+    // Tache => POCO => Plain Old CLR Object 
+    // ObjetServer => DTO Eviter l'utilisation des noms du DAO
+    // DAO => Data Access Object => DAL (Data Access Layer)
+    let objetEnvoye : ObjetServer={
+        name:liste.nom,
+        id:liste.id,
+        tasks:liste.taches.map(t=>({
+            id:t.id,
+            label:t.libelle,
+            entryDate:t.dateEntree.toJSON(),
+            realisationDate:t.dateRealisation? t.dateRealisation.toJSON():null
+        }))
+    };
+    // Async / await 
+    let r=await fetch("/liste",{method:"PUT", 
+                                body:JSON.stringify(objetEnvoye),
+                                headers:{
+                                    "Content-Type": "application/json",
+                                }
+                            })
+    if(r.status==200){
+       // alert("MAJ ok");
+    }
 
-});
-
+}
 
 function majUI(liste:Liste){
     // liste.nom => 
@@ -91,7 +137,9 @@ function majUI(liste:Liste){
             // Sinon => permet à l'utilisateur de clicker dessus pour la réaliser
             li.addEventListener("click",()=>{
                 t.realiser(); // Change la tache
-                majUI(liste);
+                majServer(liste).then(r=>{
+                    majUI(liste);
+               }) 
             }) ;           
         }
 
@@ -104,4 +152,4 @@ function majUI(liste:Liste){
 }
 
 
-majUI(liste);
+
