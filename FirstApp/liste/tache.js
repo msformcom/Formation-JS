@@ -50,3 +50,4 @@ export class Tache {
         return this.dateRealisation != null;
     }
 }
+//# sourceMappingURL=tache.js.map

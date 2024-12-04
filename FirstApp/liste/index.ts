@@ -38,6 +38,15 @@ p.then(r=>{
 
         }
 
+
+        setInterval(() => {
+            document.querySelectorAll("[data-innerhtml]").forEach(e=>{
+                let valeur=e.getAttribute("data-innerhtml")!;
+                e.innerHTML=eval(valeur);
+                e.setAttribute("aria-innerhtml",eval(valeur));
+            })
+        }, 1000);
+
         // La liste est reçue du server
         document.getElementById("button_ajout_tache")!.addEventListener("click",()=>{
             let input =  document.getElementById("input_libelle") as HTMLInputElement;
