@@ -4,6 +4,7 @@ import { Liste } from "./liste.js";
 let liste = new Liste();
 liste.addTache("Faire la lessive");
 liste.addTache("Faire la vaisselle");
+liste.addTache("Accrocher le linge");
 /**
  * Mise à jour de l'UI en fonction des changements dans liste
  */
@@ -21,9 +22,10 @@ function majUI(liste) {
         li.innerHTML = t.libelle;
         ul.appendChild(li);
     }
+    // taches classees par ordre alphabetique sur le texte
 }
 majUI(liste);
-liste.addTache("Fermer lalumière avant de partir");
+liste.addTache("Fermer la lumière avant de partir");
 majUI(liste);
 liste.taches[1].libelle = "Faire bien la vaisselle";
 majUI(liste);

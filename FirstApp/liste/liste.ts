@@ -2,7 +2,7 @@ import  {Tache} from "./tache.js";
 
 
 export class Liste{
-    nom="Taches à réaliser";
+    nom="Taches à refaire";
     id=0;
     /** Array of Tache */
     taches : Tache[]  =[]; // 
