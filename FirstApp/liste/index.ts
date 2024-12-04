@@ -1,13 +1,15 @@
 // Etat de mon application = Les données manipulées par l'utilisateur
 // Aucune référence vers l'UI
 
+// Dans ce morceau de code, je ne suis pas sencé réaliser des action au niveau du métier
+
 import { Liste } from "./liste.js";
 
 let liste=new Liste();
 liste.addTache("Faire la lessive");
 liste.addTache("Faire la vaisselle");
 liste.addTache("Accrocher le linge");
-liste.addTache("Fermer la lumière avant de partir");
+liste.addTache("Fermer la lumière ");
 /**
  * Mise à jour de l'UI en fonction des changements dans liste
  */
@@ -15,6 +17,25 @@ liste.addTache("Fermer la lumière avant de partir");
 // M => Model => Classes Liste et Tache
 // V => Html dans la page
 // VM => 
+
+// Agir sur le click du bouton
+document.getElementById("button_ajout_tache")!.addEventListener("click",()=>{
+   let input =  document.getElementById("input_libelle") as HTMLInputElement;
+   let libelle=input.value;
+   try {
+    liste.addTache(libelle);    
+    majUI(liste);
+    input.value="";
+   } catch (error:any) {
+        // Message d'erreur envoyé par la classe Tache
+       console.log(error.message); 
+       alert("Libellé non vide, qui commence par une majuscule et max 30 caractère")
+   }
+
+
+});
+
+
 function majUI(liste:Liste){
     // liste.nom => 
     document.getElementById("nom_liste")!.innerHTML=liste.nom;

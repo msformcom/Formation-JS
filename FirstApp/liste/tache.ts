@@ -19,10 +19,16 @@ export class Tache{
     }
     set libelle(l:string){
         if(l==""){
+            throw new Error("Le libelle doit être fourni");
+        }
+        // ^[A-Z].{0,29}$
+        let verificator=new RegExp("^[A-Z].{0,29}$");
+        let valide=verificator.test(l); // Vérifie que l commence par une majuscule et max 30 caractères
+        if(!valide){
             // Que faire ?
             // Si le libelle est vide => pas possible
             // On déclenche une erreur
-            throw new Error("Le libelle ne peut pas être vide");
+            throw new Error("Le libelle commence par une majuscule et max 30 caractères");
         }
         this._libelle=l;
     }

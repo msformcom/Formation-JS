@@ -7,6 +7,7 @@ export class Liste{
     /** Array of Tache */
     taches : Tache[]  =[]; // 
     addTache(libelle:string){
+        
         let t=new Tache();
         t.libelle=libelle; // Erreur possible
         this.taches.push(t);
