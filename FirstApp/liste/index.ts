@@ -4,6 +4,42 @@
 // Dans ce morceau de code, je ne suis pas sencé réaliser des action au niveau du métier
 
 import { Liste } from "./liste.js";
+import { Tache } from "./tache.js";
+
+interface ObjetServer{
+    name:string;
+    id:number;
+    tasks:{id:number, label:string,entryDate:string,realisationDate:string | null}[]
+}
+
+
+// Aller chercher les données sur le server à l'adresse ./liste
+// fetch => asynchrone => on ne peut pas attendre le résultat 
+let p =fetch("/liste"); // p est une promesse => action en attente
+p.then(r=>{
+    r.json().then((o : ObjetServer)=>{
+        console.log(o);
+        let liste=new Liste();
+        liste.nom=o.name;
+        liste.id=o.id;
+        // Je boucle sur tous les objets contenus dans o.tasks
+        for(let t of o.tasks){
+            let tache=new Tache();
+
+        }
+    }); // permet d'obtenir l'objet correspondant au json envoyé par le server
+
+}); // callback exécutée si tout va bien 
+p.catch(err=>{})
+
+console.log("toto");
+
+
+// Fonction synchrone => on peut l'utiliser sans craindre une attente
+function addition(a:number,b:number){
+    return a+b;
+}
+
 
 let liste=new Liste();
 liste.addTache("Faire la lessive");

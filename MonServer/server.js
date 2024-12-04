@@ -11,6 +11,22 @@ server.get("/bonjour",(req,res)=>{
     res.send("Bonjour ici");
 });
 
+// Objet que j'obtiendrais à partir de la BDD
+let liste={
+    name:"Ménage",
+    id:5,
+    tasks:[
+        {label:"Faire la vaisselle", entryDate:new Date(1968,8,11),id:456,realisationDate:new Date(1978,8,11)},
+        {label:"Faire le ménage", entryDate:new Date(1968,8,11),id:457,realisationDate:null},
+    ]
+}
+
+// http://localhost:4200/taches
+server.get("/liste",(req,res)=>{
+    // renvoit de l'objet
+    res.send(liste);
+})
+
 // servir rous les fichiers dans le dossier liste de FirstApp
 server.use(express.static("../FirstApp/liste"));
 

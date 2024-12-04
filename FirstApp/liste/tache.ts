@@ -11,6 +11,10 @@ export class Tache{
     constructor(){
         this.id=Math.random()*1000000;
     }
+
+    //#region Propriété libelle
+
+
     // # = privé => pas accessible de l'extérieur de 
     private _libelle="A faire";
     // Property => accesseurs qui permettent d'acceder à une valeur
@@ -32,6 +36,9 @@ export class Tache{
         }
         this._libelle=l;
     }
+
+//#endregion
+
 
     // Fonction qui permet de changer les données de la tache pour la considérer comme réalisée
     realiser(){

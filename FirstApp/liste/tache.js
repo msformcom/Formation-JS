@@ -8,6 +8,7 @@
 // cette fonctionnalité import / export = module
 export class Tache {
     constructor() {
+        //#region Propriété libelle
         // # = privé => pas accessible de l'extérieur de 
         this._libelle = "A faire";
         this.dateEntree = new Date(); // Valeur par défaut = > date de maintenant
@@ -34,6 +35,7 @@ export class Tache {
         }
         this._libelle = l;
     }
+    //#endregion
     // Fonction qui permet de changer les données de la tache pour la considérer comme réalisée
     realiser() {
         if (this.estRealise) {
